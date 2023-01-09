@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Genre extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'genre';
+    public $incrementing = false;
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
-    protected $hidden = [];
+    protected $guarded = [];
 }
