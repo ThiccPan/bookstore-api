@@ -14,17 +14,11 @@ class GenreController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $genres = Genre::paginate(10);
+        return response()->json([
+            "status" => "success",
+            "data" => $genres 
+        ]);   
     }
 
     /**
@@ -35,7 +29,14 @@ class GenreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validateGenreReq($request);
+        $data = $request->all();
+        $newGenre = Genre::create($data);
+        return response()->json([
+            "status" => "success",
+            "data" => $newGenre,
+            "nama" => $newGenre["genre"]
+        ]);
     }
 
     /**
@@ -46,18 +47,9 @@ class GenreController extends Controller
      */
     public function show(Genre $genre)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Genre  $genre
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Genre $genre)
-    {
-        //
+        return response()->json([
+            "data" => $genre
+        ]);
     }
 
     /**
@@ -69,7 +61,13 @@ class GenreController extends Controller
      */
     public function update(Request $request, Genre $genre)
     {
-        //
+        $this->validateGenreReq($request);
+        $genre->genre = $request->genre;
+        $genre->save();
+        return response()->json([
+            "status" => "success",
+            "data" => $genre
+        ]);
     }
 
     /**
@@ -80,6 +78,20 @@ class GenreController extends Controller
      */
     public function destroy(Genre $genre)
     {
-        //
+        $genre->delete();
+        return response()->json([
+            "status" => "success",
+            "message" => "successfully deleted"
+        ]);
+    }
+
+    /**
+     * validation rule for genre request
+     */
+    private function validateGenreReq(Request $request)
+    {
+        $request->validate([
+            "genre" => "required|string|unique:genres|max:255"
+        ]);
     }
 }

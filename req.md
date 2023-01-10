@@ -1,4 +1,4 @@
 # TODO:
 - [X] setup postgresdb
-- [ ] design db
 - [X] setup migration
+- [X] finish genre crud func
