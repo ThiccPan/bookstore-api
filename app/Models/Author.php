@@ -15,4 +15,5 @@ class Author extends Model
      * @var array<int, string>
      */
     protected $hidden = [];
+    protected $fillable = ["name"];
 }
